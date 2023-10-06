@@ -1,8 +1,9 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
-    <title>Recipes Home</title>
+
+<head>
+    <title>Login</title>
     <link rel="stylesheet" type="text/css" href="{% static 'recipes/css/styles.css' %}">
     <style type="text/css">
         body {
@@ -19,17 +20,22 @@
         }
     </style>
 
-    <body>
-        <nav>
-            <img src="{% static 'recipes/images/food_logo.png' %}" alt="logo" height="200px" width="200px">
-        </nav>
+</head>
 
-        <h1>Discover a world of culinary delights</h1>
-        <h1>with our MoodForFood app</h1>
-        <h3>Login to explore recipes ↓</h3>
+<body>
+    <nav>
+        <img src="{% static 'recipes/images/food_logo.png' %}" alt="logo" height="200px" width="200px">
+    </nav>
+    <h1>Login to MoodForFood</h1>
+    {% if error_message %}
+    {{error_message}}
+    {% endif %}
 
-        <button class="custom-button"><a href="{%url 'login' %}">Login</a></button>
-
-    </body>
+    <form class="from-login" action="" method="POST">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">Login</button>
+    </form>
+</body>
 
 </html>
