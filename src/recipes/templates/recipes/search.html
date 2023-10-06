@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Search</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'recipes/css/styles.css' %}">
+    <style type="text/css">
+        body {
+            background: url("{% static 'recipes/images/background.jpg' %}");
+            background-size: cover;
+        }
+        table {
+            margin: 0 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            font-weight: bold;
+        }
+        form {
+            margin: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-bar">
+        <div class="navbar-left">
+            <img src="{% static 'recipes/images/food_logo.png' %}" alt="logo" height="100px" width="100px">
+        </div>
+        <div class="navbar-right"><a href="{%url 'logout' %}">Logout</a></div>
+    </div>
+    <h1>Search for recipes</h1>
+    <hr>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form}}
+        <button class="custom-button" type="submit">search</button>
+    </form>
+    <br>
+    <div>
+        {% if recipes %}
+        <h2>Search results:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Recipe Name</th>
+                    <th>Cooking Time</th>
+                    <th>Ingredients</th>
+                    <th>Difficulty</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                <tr>
+                    <td><a href="{% url 'recipes:detail' pk=recipe.id %}"> {{ recipe.name }}</a></td>
+                    <td>{{recipe.cooking_time}}</td>
+                    <td>{{recipe.ingredients}}</td>
+                    <td>{{recipe.calculate_difficulty}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Cooking Time:</h2>
+        <img src="data:image/png; base64, {{chart1|safe}}" alt="Plot Chart">
+        <h2>Difficulty:</h2>
+        <img src="data:imgae/png; base64, {{chart2|safe}}" alt="Pie Chart">
+        <h2>Ingredients</h2>
+        <img src="data:image/png; base64, {{chart3|safe}}" alt="Pie Chart">
+
+        {% else %}
+        <h3>No recipe found</h3>
+        {% endif %}
+    </div>
+    <a href="{% url 'recipes:list' %}"><button class="custom-button">View all recipes</button></a>
+</body>
+
+</html>

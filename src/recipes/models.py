@@ -21,6 +21,14 @@ class Recipes(models.Model):
             difficulty = "Hard"
         return difficulty
 
+    def ingredient_list(self):
+        if self.ingredients=="":
+            return []
+        return self.ingredients.split(", ")
+    
+    def numb_of_ingredients(self):
+        return len(self.ingredient_list())
+
     def __str__(self):
         return str(self.name)
     
